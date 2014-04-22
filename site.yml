@@ -1,0 +1,6 @@
+---
+# This playbook installs the Gazzang zNcrypt client on the target systems.
+- hosts: zncrypt
+  sudo: yes
+  roles:
+    - common

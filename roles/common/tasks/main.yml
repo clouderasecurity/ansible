@@ -1,0 +1,17 @@
+---
+tasks:
+  - name: Add Gazzang repository to yum configuration
+    template: src=gazzang.repo.j2 dest=/etc/yum.repos.d/gazzang.repo owner=root group=root mode=0644
+    when: ansible_os_family == "RedHat"
+
+  - name: Add Gazzang repository to apt-get configuration
+    apt_repository: repo='deb https://{% if repo_username is defined and repo_password is defined %}{{ repo_username }}:{{ repo_password }}@{% endif %}archive.gazzang.com/ubuntu/stable precise main' state=present
+    when: ansible_os_family == "Debian"
+
+  - name: Add Gazzang GPG signing key to rpm DB
+    rpm_key: state=present key=https://archive.gazzang.com/gpg_gazzang.asc
+    when: ansible_os_family == "RedHat"
+
+  - name: Add Gazzang GPG signing key to apt-key DB
+    apt_key: url=https://archive.gazzang.com/gpg_gazzang.asc state=present
+    when: ansible_os_family == "Debian"

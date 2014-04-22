@@ -1,0 +1,6 @@
+[gazzang]
+name=RHEL $releasever - gazzang.com - base
+baseurl=https://{% if repo_username is defined and repo_password is defined %}{{ repo_username }}:{{ repo_password }}@{% endif %}archive.gazzang.com/redhat/stable/$releasever
+enabled=1
+gpgcheck=1
+gpgkey=https://archive.gazzang.com/gpg_gazzang.asc
