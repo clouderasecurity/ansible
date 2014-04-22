@@ -1,0 +1,31 @@
+---
+  - name: Install zNcrypt, along with all dependencies
+    yum: name={{ item }} enablerepo=gazzang state=present
+    with_items:
+      - kernel-devel-{{ ansible_kernel }}
+      - kernel-headers-{{ ansible_kernel }}
+      - make
+      - perl
+      - rng-tools
+      - zncrypt
+    when: ansible_os_family == "RedHat"
+
+  - name: Modify rngd configuration to point to /dev/urandom
+    template: src=rngd.j2 dest=/etc/sysconfig/rngd owner=root group=root mode=0640
+    when: ansible_os_family == "RedHat"
+
+  - name: Start rngd service and add to start-order
+    service: name=rngd enabled=yes state=started
+    when: ansible_os_family == "RedHat"
+
+  - name: Install zNcrypt, along with all dependencies
+    apt: pkg={{ item }} update-cache=yes state=present cache_valid_time=3600
+    with_items:
+      - linux-headers-{{ ansible_kernel }}
+      - haveged
+      - zncrypt
+    when: ansible_os_family == "Debian"
+
+  - name: Start haveged service and add to start-order
+    service: name=haveged enabled=yes state=started
+    when: ansible_os_family == "Debian"

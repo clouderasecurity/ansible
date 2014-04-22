@@ -4,7 +4,7 @@
     when: ansible_os_family == "RedHat"
 
   - name: Add Gazzang repository to apt-get configuration
-    apt_repository: repo='deb https://{% if repo_username is defined and repo_password is defined %}{{ repo_username }}:{{ repo_password }}@{% endif %}archive.gazzang.com/ubuntu/stable precise main' state=present
+    apt_repository: repo='deb https://{% if repo_username is defined and repo_password is defined %}{{ repo_username }}:{{ repo_password }}@{% endif %}archive.gazzang.com/ubuntu/stable {{ ansible_distribution_release }} main' state=present
     when: ansible_os_family == "Debian"
 
   - name: Add Gazzang GPG signing key to rpm DB
