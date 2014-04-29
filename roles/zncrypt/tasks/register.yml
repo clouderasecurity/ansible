@@ -1,0 +1,4 @@
+---
+  - name: Register client with key server
+    shell: printf "{{ master_password }}\n{{ master_password }}\n" | zncrypt register -s {{ ztrustee_server_hostname }} {% if org_name is defined and auth_code is defined %} -o {{ org_name }} --auth={{ auth_code }} {% endif %} -t single-passphrase {% if skip_ssl %} --skip-ssl-check {% endif %} creates=/etc/zncrypt/ztrustee/clientname
+    when: master_password is defined

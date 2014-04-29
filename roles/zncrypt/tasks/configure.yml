@@ -1,0 +1,24 @@
+---
+  - name: Modify rngd configuration to point to /dev/urandom
+    template: src=rngd.j2 dest=/etc/sysconfig/rngd owner=root group=root mode=0640
+    when: ansible_os_family == "RedHat"
+
+  - name: Start the rngd service and add to start-order
+    service: name=rngd enabled=yes state=started
+    when: ansible_os_family == "RedHat"
+
+  - name: Disable selinux
+    command: setenforce 0
+    command: sed -i s/SELINUX=enforcing/SELINUX=disabled/ /etc/selinux/config
+    when: ansible_os_family == "RedHat"
+
+  - name: Start the haveged service and add to start-order
+    service: name=haveged enabled=yes state=started
+    when: ansible_os_family == "Debian"
+
+  - name: Stop apparmor
+    service: name=apparmor state=stopped
+    when: ansible_os_family == "Debian"
+
+  - name: Remove the zncrypt-ping cron job
+    file: path=/etc/cron.hourly/zncrypt-ping state=absent

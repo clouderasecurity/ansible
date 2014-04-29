@@ -1,0 +1,21 @@
+---
+  - name: Create storage directories
+    file: path={{ item.0 }} state=directory owner=root group=root mode=700
+    with_together:
+      - storage_dirs
+  
+  - name: Create mount directories
+    file: path={{ item.0 }} state=directory owner=root group=root mode=700
+    with_together:
+      - mount_dirs
+  
+  - name: Get ztab contents
+    command: cat /etc/zncrypt/ztab
+    register: ztab_contents
+  
+  - name: Prepare system for encryption (create encrypted partitions)
+    shell: printf "{{ master_password }}" | zncrypt-prepare {{ item.0 }} {{ item.1 }}
+    with_together:
+      - storage_dirs
+      - mount_dirs
+    when: master_password is defined and item.0 is defined and item.1 is defined and ztab_contents.stdout.find(item.1) == -1

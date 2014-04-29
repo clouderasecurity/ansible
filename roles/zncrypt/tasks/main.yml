@@ -1,2 +1,7 @@
 ---
 - include: install.yml
+- include: configure.yml
+- include: register.yml
+- include: prepare.yml
+- include: encrypt.yml
+- include: protect.yml

@@ -10,6 +10,13 @@ Ansible playbooks for deploying the full Gazzang product-set. This includes:
   
 * `ztrustee-server` - Universal Key Management with fine-grained policy and access controls built in.
 
+Supported Distributions
+-----------------------
+
+Currently tested and supported:
+
+* RHEL 6
+
 Getting Started
 ---------------
 
