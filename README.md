@@ -13,9 +13,13 @@ Ansible playbooks for deploying the full Gazzang product-set. This includes:
 Supported Distributions
 -----------------------
 
-Currently tested and supported:
+Tested:
 
-* RHEL 6
+* RHEL 6.4, 6.5
+
+Supported, but not tested:
+
+* Ubuntu 12.04
 
 Getting Started
 ---------------
@@ -49,7 +53,9 @@ root@machine3.example.com
 
 And is expected (unless running custom commands) to be in the `hosts` file. This is optional though.
 
-Once Ansible and your inventory are installed, simply run the included `run-playbook.sh` script to get started. This will take all commands from the CLI and pass them to the `ansible-playbook` command, so pass any extra configuration options as necessary.
+Once Ansible and your inventory are installed, you will need to set the necessary group variables depending on what you are going to install/configure. To configure zNcrypt, for example, take a look at the `group_vars/zncrypt` file.
+
+Once the variables are set, simply run the included `run-playbook.sh` script to get started. This will take all commands from the CLI and pass them to the `ansible-playbook` command, so pass any extra configuration options as necessary.
 
 As long as you have SSH configured to your machine correctly (passwords, SSH keys, etc.), then everything should (hopefully) work out of the box.
 

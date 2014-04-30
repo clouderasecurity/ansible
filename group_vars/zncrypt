@@ -9,7 +9,9 @@ ztrustee_server_hostname: ztdemo.gazzang.net
 org_name: 
 auth_code: 
 
-# PLEASE NOTE - the mount_dirs, storage_dirs, encryption_targets, acl_categories, and acl_binaries variables should be of equal length. For example, mount_dirs[1] will correspond to index 1 of the other variables.
+# PLEASE NOTE - the mount_dirs, storage_dirs, encryption_targets,
+# acl_categories, and acl_binaries variables should be of equal length. For
+# example, mount_dirs[1] will correspond to index 1 of the other variables.
 
 # Locations to store/access encrypted data
 mount_dirs: [ "/var/lib/zncrypt/encrypted" ]
