@@ -1,15 +1,6 @@
 ---
 - hosts: zncrypt
   sudo: yes
-  vars:
-    repo: stable
-    skip_ssl: false
-    ztrustee_server_hostname: 
-    org_name: 
-    auth_code: 
-    master_password: 
-    mount_dirs: [ "/var/lib/zncrypt/encrypted" ]
-    storage_dirs: [ "/var/lib/zncrypt/.private" ]
   roles:
     - common
     - zncrypt

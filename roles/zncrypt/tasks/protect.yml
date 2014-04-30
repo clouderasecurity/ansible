@@ -1,12 +1,14 @@
 ---
   - name: Check current ACLs
-    shell: printf "{{ master_password }}" | zncrypt acl --list"
+    shell: printf "{{ master_password }}" | zncrypt acl --list
     register: current_acls
-    when: "{{ master_password }} is defined"
+    when: master_password is defined
+    ignore_errors: yes
     
-  - name: Encrypt target directories/files
-    shell: printf "{{ master_password }}" | zncrypt acl --add --rule="ALLOW @item.0 * item.1"
+  - name: Set ACL rules
+    shell: printf "{{ master_password }}" | zncrypt acl --add --rule="ALLOW @{{ item.0 }} * {{ item.1 }}"
     with_together:
       - acl_categories
       - acl_binaries
-    when: "{{ master_password }} is defined and item.0 is defined and item.1 is defined and current_acls.stdout.find(item.1) == -1"
+    when: master_password is defined and item.0 is defined and item.1 is defined
+    ignore_errors: yes

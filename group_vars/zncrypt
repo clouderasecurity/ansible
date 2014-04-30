@@ -1,0 +1,29 @@
+---
+# Master password for zNcrypt
+master_password: 
+
+# zTrustee Server hostname
+ztrustee_server_hostname: ztdemo.gazzang.net
+
+# zTrustee registration credentials
+org_name: 
+auth_code: 
+
+# PLEASE NOTE - the mount_dirs, storage_dirs, encryption_targets, acl_categories, and acl_binaries variables should be of equal length. For example, mount_dirs[1] will correspond to index 1 of the other variables.
+
+# Locations to store/access encrypted data
+mount_dirs: [ "/var/lib/zncrypt/encrypted" ]
+storage_dirs: [ "/var/lib/zncrypt/.private" ]
+
+# Targets for encryption
+encryption_targets: [ "/etc/issue" ]
+
+# ACL rules to allow, once encryption is completed
+acl_categories: [ "cat" ]
+acl_binaries: [ "/bin/cat" ]
+
+# Repository to pull from (stable, proposed, testing, and unstable are valid)
+repo: stable
+
+# Skip SSL checking when connecting to the keyserver (leave as false)
+skip_ssl: false

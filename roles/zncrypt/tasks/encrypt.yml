@@ -1,9 +1,15 @@
 ---
+  - name: Stat the encryption targets
+    stat: path={{ item.0 }} get_md5=no
+    with_together:
+      - encryption_targets
+    register: st_enc_targets
+  
   - name: Encrypt target data
-    shell: printf "{{ master_password }}" | zncrypt-move encrypt @item.0 item.1 item.2
+    shell: printf "{{ master_password }}" | zncrypt-move encrypt @{{ item.0 }} {{ item.1 }} {{ item.2 }}
+    when: item.0 is defined and item.1 is defined and item.2 is defined and  master_password is defined and item.3.stat.islnk is defined and item.3.stat.islnk == false
     with_together:
       - acl_categories
       - encryption_targets
       - mount_dirs
-    when: item.0 is defined and item.1 is defined and item.2 is defined and {{ master_password }} is defined
-    ignore_errors: yes
+      - st_enc_targets.results
