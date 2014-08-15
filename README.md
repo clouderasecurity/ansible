@@ -41,6 +41,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+NOTE: On Mac OS X Mavericks, you might need to install the `pycrypto` package with special arguments. This worked for us:
+
+```
+ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install pycrypto
+```
+
 Once Ansible is installed, you will need to create an inventory (a list of servers you would like to bootstrap/convert). An example inventory file will look like:
 
 ```

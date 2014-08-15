@@ -12,19 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-  - name: Install zNcrypt, along with all dependencies
-    yum: name={{ item }} enablerepo=gazzang state=present
-    with_items:
-      - kernel-devel-{{ ansible_kernel }}
-      - kernel-headers-{{ ansible_kernel }}
-      - make
-      - perl
-      - zncrypt
+  - name: Install rng toolkit
+    yum: name=rng-tools state=present
     when: ansible_os_family == "RedHat"
 
-  - name: Install zNcrypt, along with all dependencies
-    apt: pkg={{ item }} update-cache=yes state=present cache_valid_time=3600
-    with_items:
-      - linux-headers-{{ ansible_kernel }}
-      - zncrypt
+  - name: Modify rngd configuration to point to /dev/urandom
+    template: src=etc/sysconfig/rngd.j2 dest=/etc/sysconfig/rngd owner=root group=root mode=0640
+    when: ansible_os_family == "RedHat"
+
+  - name: Start the rngd service
+    service: name=rngd enabled=yes state=restarted
+    when: ansible_os_family == "RedHat"
+
+  - name: Install haveged daemon
+    apt: name=haveged state=present
     when: ansible_os_family == "Debian"
+
+  - name: Start the haveged service
+    service: name=haveged enabled=yes state=restarted
+    when: ansible_os_family == "Debian"
+

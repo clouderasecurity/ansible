@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2014, Gazzang Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
----
-  - name: Remove the zncrypt-ping cron job
-    file: path=/etc/cron.hourly/zncrypt-ping state=absent
+
+# Quick script to verify syntax before running. All CLI args are passed to the 'ansible-playbook' command
+ansible-playbook site.yml -i hosts -u vagrant --private-key=~/.vagrant.d/insecure_private_key

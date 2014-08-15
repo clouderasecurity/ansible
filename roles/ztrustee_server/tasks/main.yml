@@ -12,5 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-  - name: Remove the zncrypt-ping cron job
-    file: path=/etc/cron.hourly/zncrypt-ping state=absent
+- include: install.yml
+- include: configure.yml

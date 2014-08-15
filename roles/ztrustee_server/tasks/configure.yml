@@ -1,0 +1,43 @@
+# Copyright 2014, Gazzang Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+  - name: Check for zTrustee configuration file
+    stat: path=/var/lib/ztrustee/.ztrustee/ztrustee.conf get_md5=no
+    register: ztrustee_conf
+  
+  - name: Run post-installation scripts
+    command: /usr/lib/ztrustee-server/postinst/setup-rh
+    when: ansible_os_family == "RedHat" and not ztrustee_conf.stat.exists
+  
+  - name: Check current orgtool status
+    command: /usr/lib/ztrustee-server/orgtool list
+    register: orgtool_out
+  
+  - name: Create organization
+    command: /usr/lib/ztrustee-server/orgtool add -n {{ item.0 }} -c {{ item.1 }}
+    with_together:
+      - org_name
+      - org_admin
+    when: orgtool_out.stdout.find(item.0) == -1
+  
+  - name: Check current orgtool status
+    command: /usr/lib/ztrustee-server/orgtool list
+    register: orgtool_out
+  
+  - name: Set authorization code for organization
+    command: /usr/lib/ztrustee-server/orgtool set-auth -n {{ item.0 }} -s {{ item.1 }}
+    with_together:
+      - org_name
+      - org_authcode
+    when: orgtool_out.stdout.find(item.1) == -1

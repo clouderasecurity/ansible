@@ -1,9 +1,9 @@
 ---
 # Master password for zNcrypt
-master_password: 
+master_password: secretsecretsecret
 
 # zTrustee Server hostname
-ztrustee_server_hostname: ztdemo.gazzang.net
+ztrustee_server_hostname: 
 
 # zTrustee registration credentials
 org_name: 

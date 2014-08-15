@@ -1,6 +1,21 @@
+# Copyright 2014, Gazzang Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 ---
+  - include: rng.yml
+  
   - name: Add Gazzang repository to yum configuration
-    template: src=gazzang.repo.j2 dest=/etc/yum.repos.d/gazzang.repo owner=root group=root mode=0644
+    template: src=etc/yum.repos.d/gazzang.repo.j2 dest=/etc/yum.repos.d/gazzang.repo owner=root group=root mode=0644
     when: ansible_os_family == "RedHat"
 
   - name: Add Gazzang repository to apt-get configuration
@@ -13,4 +28,13 @@
 
   - name: Add Gazzang GPG signing key to apt-key DB
     apt_key: url=https://archive.gazzang.com/gpg_gazzang.asc state=present
+    when: ansible_os_family == "Debian"
+  
+  - name: Disable selinux
+    command: setenforce 0
+    command: sed -i s/SELINUX=enforcing/SELINUX=disabled/ /etc/selinux/config
+    when: ansible_os_family == "RedHat"
+
+  - name: Stop apparmor
+    service: name=apparmor state=stopped
     when: ansible_os_family == "Debian"

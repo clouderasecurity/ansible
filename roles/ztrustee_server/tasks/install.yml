@@ -12,5 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-  - name: Remove the zncrypt-ping cron job
-    file: path=/etc/cron.hourly/zncrypt-ping state=absent
+  - name: Install zTrustee Server
+    yum: name={{ item }} enablerepo=gazzang state=present
+    with_items:
+      - ztrustee-server
+    when: ansible_os_family == "RedHat"
+
+  - name: Install zTrustee Server
+    apt: pkg={{ item }} update-cache=yes state=present
+    with_items:
+      - ztrustee-server
+    when: ansible_os_family == "Debian"

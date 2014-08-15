@@ -1,0 +1,10 @@
+---
+# Variables for setting backups
+backup_enabled: true
+backup_directory: /
+backup_server: keytrustee2.localdomain
+
+# Variables to specify a new organization
+org_name: myorganization
+org_admin: root@localhost.localdomain
+org_authcode: supersecretauthcode

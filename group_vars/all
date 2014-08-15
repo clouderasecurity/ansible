@@ -1,0 +1,7 @@
+---
+# Repository to use (stable|proposed|testing|unstable)
+repo: stable
+
+# Repository credentials, if needed (will be needed for zTrustee Server)
+repo_username: 
+repo_password: 
