@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2014, Cloudera Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,20 +12,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
----
-  - name: Install zNcrypt, along with all dependencies
-    yum: name={{ item }} enablerepo=gazzang state=present
-    with_items:
-      - kernel-devel-{{ ansible_kernel }}
-      - kernel-headers-{{ ansible_kernel }}
-      - make
-      - perl
-      - zncrypt
-    when: ansible_os_family == "RedHat"
 
-  - name: Install zNcrypt, along with all dependencies
-    apt: pkg={{ item }} update-cache=yes state=present cache_valid_time=3600
-    with_items:
-      - linux-headers-{{ ansible_kernel }}
-      - zncrypt
-    when: ansible_os_family == "Debian"
+ansible -i ./hosts --private-key=~/.vagrant.d/insecure_private_key $@

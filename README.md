@@ -1,7 +1,7 @@
-Gazzang Ansible Playbooks
+Cloudera Ansible Playbooks
 =========================
 
-Ansible playbooks for deploying the full Gazzang product-set. This includes:
+Ansible playbooks for deploying the full Cloudera product-set. This includes:
 
 * `zncrypt` - Lightweight encryption utility that provides:
   * Transparent data-at-rest encryption (AES-256 CBC-IV, by default)
@@ -29,8 +29,8 @@ In order to get started, you will need to have Ansible installed and an inventor
 To get up and running, we recommend utilizing the Python `virtualenv` application to create a staging environment. If using `virtualenv`:
 
 ```
-# clone the Gazzang ansible repo
-git clone https://github.com/gazzang/ansible.git
+# clone the Cloudera ansible repo
+git clone https://github.com/clouderasecurity/ansible.git
 
 # create the virtual environment (assuming virtualenv is installed)
 cd ansible
@@ -50,16 +50,19 @@ ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip insta
 Once Ansible is installed, you will need to create an inventory (a list of servers you would like to bootstrap/convert). An example inventory file will look like:
 
 ```
-# servers to install zncrypt on
+# server to install key server on
+[ztrustee_server]
+
+# servers to install encrypt client
 [zncrypt]
 root@machine1.example.com
 root@machine2.example.com
 root@machine3.example.com
 ```
 
-And is expected (unless running custom commands) to be in the `hosts` file. This is optional though.
+And is expected (unless running custom commands) to be in the `hosts` file. This is optional though, and can be set to whatever is convenient for your environment.
 
-Once Ansible and your inventory are installed, you will need to set the necessary group variables depending on what you are going to install/configure. To configure zNcrypt, for example, take a look at the `group_vars/zncrypt` file.
+Once Ansible is installed and your inventory is configured, you will need to set the necessary group variables depending on what you are going to install/configure. To configure zNcrypt, take a look at the `group_vars/zncrypt` file.
 
 Once the variables are set, simply run the included `run-playbook.sh` script to get started. This will take all commands from the CLI and pass them to the `ansible-playbook` command, so pass any extra configuration options as necessary.
 

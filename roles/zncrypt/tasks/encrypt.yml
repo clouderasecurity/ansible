@@ -1,4 +1,4 @@
-# Copyright 2014, Gazzang Inc.
+# Copyright 2014, Cloudera Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,14 @@
     with_together:
       - encryption_targets
     register: st_enc_targets
-  
+
+  - name: Create encryption targets, if they dont exist
+    file: path={{ item.0 }} state=directory owner=root group=root mode=755
+    when: item.1.stat.exists is defined and item.1.stat.exists == false
+    with_together:
+        - encryption_targets
+        - st_enc_targets.results
+
   - name: Encrypt target data
     shell: printf "{{ master_password }}" | zncrypt-move encrypt @{{ item.0 }} {{ item.1 }} {{ item.2 }}
     when: item.0 is defined and item.1 is defined and item.2 is defined and  master_password is defined and item.3.stat.islnk is defined and item.3.stat.islnk == false
